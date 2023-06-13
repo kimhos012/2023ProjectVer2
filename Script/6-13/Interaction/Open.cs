@@ -21,33 +21,69 @@ public class Open : MonoBehaviour
 
     private bool DDoublepush;
     private float Yangle;
+    private Vector3 Backupposition;
 
     private void Start()
     {
-        Yangle = GetComponent<Transform>().eulerAngles.y;           //Save First position
+        if(doorType == 0)
+        {
+            Yangle = GetComponent<Transform>().eulerAngles.y;           //Save First position
+        }
+        else
+        {
+            Backupposition = GetComponent<Transform>().position;
+        }
+
+        
 
         if (isOpen && doorType == 0)
-            StartCoroutine(openDooor());
+            if(OpenAngle)
+                transform.eulerAngles += new Vector3(0, 80, 0);
+            else
+                transform.eulerAngles -= new Vector3(0, 80, 0);
+
         else if (isOpen && doorType == 1)
-            StartCoroutine(openDesk());
+            transform.position += new Vector3(0, 0, 24);
     }
 
     public void Opening()
     {
-        if (isOpen && !DDoublepush)
+        switch(doorType)
         {
-            isOpen = false;
-            StartCoroutine(openDooor());
+            case 0:
+                if (isOpen && !DDoublepush)
+                {
+                    isOpen = false;
+                    StartCoroutine(openDooor());
+                }
+                else if (!isOpen && !DDoublepush)
+                {
+                    isOpen = true;
+                    StartCoroutine(openDooor());
+                }
+                if (DDoublepush)
+                {
+                    return;
+                }
+                break;
+            case 1:
+                if (isOpen && !DDoublepush)
+                {
+                    isOpen = false;
+                    StartCoroutine(openDesk());
+                }
+                else if (!isOpen && !DDoublepush)
+                {
+                    isOpen = true;
+                    StartCoroutine(openDesk());
+                }
+                if (DDoublepush)
+                {
+                    return;
+                }
+                break;
         }
-        else if (!isOpen && !DDoublepush)
-        {
-            isOpen = true;
-            StartCoroutine(openDooor());
-        }
-        if (DDoublepush)
-        {
-            return;
-        }
+        
     }
 
     IEnumerator openDooor()
@@ -113,11 +149,11 @@ public class Open : MonoBehaviour
     {
         if (isOpen && !DDoublepush)
         {
-            DDoublepush = true;                                         //+각도로 문이 열림
+            DDoublepush = true;                                         
             Sound.GetComponent<AudioSource>().Play();
-            for (int i = 0; i < 79; i++)
+            for (int i = 0; i < 24; i++)
             {
-                transform.eulerAngles += new Vector3(0, 1, 0);
+                transform.localPosition += new Vector3(0, 0, 1);
                 yield return new WaitForSecondsRealtime(.005f);
             }
             DDoublepush = false;
@@ -126,41 +162,13 @@ public class Open : MonoBehaviour
         {
             DDoublepush = true;
             Sound.GetComponent<AudioSource>().Play();
-            for (int i = 0; i < 79; i++)
+            for (int i = 0; i < 24; i++)
             {
-                transform.eulerAngles -= new Vector3(0, 1, 0);
+                transform.localPosition -= new Vector3(0, 0, 1);
                 yield return new WaitForSecondsRealtime(.005f);
             }
-            transform.eulerAngles = new Vector3(0, Yangle, 0);      //혹시모를 방향에 문제가 발생 시
+            transform.position = Backupposition;      //혹시모를 방향에 문제가 발생 시
             DDoublepush = false;
-        }
-        else
-        {
-            if (isOpen && !DDoublepush)                                      //-각도로 문이 열림
-            {
-                DDoublepush = true;
-                Sound.GetComponent<AudioSource>().Play();
-                for (int i = 0; i < 79; i++)
-                {
-                    transform.eulerAngles -= new Vector3(0, 1, 0);
-
-                    yield return new WaitForSecondsRealtime(.005f);
-                }
-                DDoublepush = false;
-            }
-            else if (!isOpen && !DDoublepush)
-            {
-                DDoublepush = true;
-                Sound.GetComponent<AudioSource>().Play();
-                for (int i = 0; i < 79; i++)
-                {
-                    transform.eulerAngles += new Vector3(0, 1, 0);
-
-                    yield return new WaitForSecondsRealtime(.005f);
-                }
-                transform.eulerAngles = new Vector3(0, Yangle, 0);      //혹시모를 방향에 문제가 발생 시
-                DDoublepush = false;
-            }
         }
         yield return null;
     }

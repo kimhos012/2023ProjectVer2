@@ -16,8 +16,15 @@ public class PlayerInteraction : MonoBehaviour
     [Tooltip("Interaction Obj")]
 
     [Space(10f)]
-    
-    public Text InteractionMsg;
+
+    //public Text InteractionMsg;
+    [Header("Display Image")]
+    public GameObject OpenDoor;
+    public GameObject CloseDoor;
+    public GameObject OpenDesk;
+    public GameObject CloseDesk;
+    public GameObject PickupItem;
+    public GameObject PickupDaily;
 
     [Space(10)]
     public LayerMask layerMask;     //ITEM만 구분하기
@@ -28,7 +35,15 @@ public class PlayerInteraction : MonoBehaviour
 
     void Start()
     {
-        InteractionMsg.text = " ";
+        //InteractionMsg.text = " ";
+
+        OpenDoor.SetActive(false);
+        CloseDoor.SetActive(false);
+        OpenDesk.SetActive(false);
+        CloseDesk.SetActive(false);
+        PickupItem.SetActive(false);
+        PickupDaily.SetActive(false);
+
     }
 
     public void Interaction()
@@ -41,7 +56,9 @@ public class PlayerInteraction : MonoBehaviour
             
             if (onhit.collider.CompareTag("Item"))       //아이템 감지.
             {
-                InteractionMsg.text = "E 를 눌러 물건을 줍습니다.";
+                //InteractionMsg.text = "E 를 눌러 물건을 줍습니다.";
+                PickupItem.SetActive(true);
+
                 if (Input.GetKeyDown(KeyCode.E))
                 {
                     onhit.transform.GetComponent<Item>().OnPickup();
@@ -53,11 +70,15 @@ public class PlayerInteraction : MonoBehaviour
             {
                 if (onhit.transform.GetComponent<Open>().isOpen)
                 {
-                    InteractionMsg.text = "E 를 눌러 문을 닫습니다.";
+                    //InteractionMsg.text = "E 를 눌러 문을 닫습니다.";
+                    OpenDoor.SetActive(false);
+                    CloseDoor.SetActive(true);
                 }
                 else if (onhit.transform.GetComponent<Open>().isOpen == false)
                 {
-                    InteractionMsg.text = "E 를 눌러 문을 엽니다.";
+                    //InteractionMsg.text = "E 를 눌러 문을 엽니다.";
+                    OpenDoor.SetActive(true);
+                    CloseDoor.SetActive(false);
                 }
                 if (Input.GetKeyDown(KeyCode.E))                //Use INter
                 {
@@ -69,11 +90,11 @@ public class PlayerInteraction : MonoBehaviour
             {
                 if (onhit.transform.GetComponent<Open>().isOpen)
                 {
-                    InteractionMsg.text = "E 를 눌러 서랍을 닫습니다.";
+                    //InteractionMsg.text = "E 를 눌러 서랍을 닫습니다.";
                 }
                 else if (onhit.transform.GetComponent<Open>().isOpen == false)
                 {
-                    InteractionMsg.text = "E 를 눌러 서랍을 엽니다.";
+                    //InteractionMsg.text = "E 를 눌러 서랍을 엽니다.";
                 }
                 if (Input.GetKeyDown(KeyCode.E))                //Use INter
                 {
@@ -82,11 +103,20 @@ public class PlayerInteraction : MonoBehaviour
             }
             else if (onhit.collider.CompareTag("Exit"))      //NAGAGEE DOOR
             {
-                InteractionMsg.text = "E 를 눌러 밖으로 나갑니다.";
+                //InteractionMsg.text = "E 를 눌러 밖으로 나갑니다.";
             }
 
         }
-        else { InteractionMsg.text = null; }
+        else
+        {
+            //InteractionMsg.text = null;
+            OpenDoor.SetActive(false);
+            CloseDoor.SetActive(false);
+            OpenDesk.SetActive(false);
+            CloseDesk.SetActive(false);
+            PickupItem.SetActive(false);
+            PickupDaily.SetActive(false);
+        }
     }
 
 

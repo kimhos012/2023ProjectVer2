@@ -72,14 +72,13 @@ public class PlayerControllerWithCharC : MonoBehaviour
 
     private void Start()
     {
+        toggleF = false;
+        Flash.SetActive(false);
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
 
         characterController = GetComponent<CharacterController>();
-
-        toggleF = false;
-        Flash.SetActive(false);
     }
 
     private void Update()
