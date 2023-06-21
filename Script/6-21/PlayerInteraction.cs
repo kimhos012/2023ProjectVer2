@@ -109,12 +109,10 @@ public class PlayerInteraction : MonoBehaviour
                 if (onhit.transform.GetComponent<Open>().isOpen)
                 {
                     //InteractionMsg.text = "E 를 눌러 서랍을 닫습니다.";
-                    OpenDesk.SetActive(true);
                 }
                 else if (onhit.transform.GetComponent<Open>().isOpen == false)
                 {
                     //InteractionMsg.text = "E 를 눌러 서랍을 엽니다.";
-                    CloseDesk.SetActive(true);
                 }
                 if (Input.GetKeyDown(KeyCode.E))                //Use INter
                 {

@@ -7,7 +7,7 @@ using UnityEngine.XR;
 public class PlayerMenu : MonoBehaviour
 {
     
-    public bool toggleMenu = false;            //false시 게임 진행 =  continue
+    bool toggleMenu = false;            //false시 게임 진행 =  continue
     bool IsNextPage;
     private bool StartingGame;
     
@@ -24,51 +24,48 @@ public class PlayerMenu : MonoBehaviour
     [Space(10f)]
     public GameObject InteractionUI;
     public GameObject T_gameobj;
-    
-    
-
-
+    [Space(10f)]
+    public GameObject MyGgaKillHatDa;
 
 
     private void Update()
     {
-        //DirectDiary();
-
-        if (player.GetComponent<PlayerControllerWithCharC>().enabled)
-        {
-            Cursor.visible = false;
-            Cursor.lockState = CursorLockMode.Confined;
-        }
-        GetEsc();
-        detect7();
-
-    }
-
-
-    void GetEsc()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if(Input.GetKeyDown(KeyCode.Escape))
         {
             if (toggleMenu)
             {
                 toggleMenu = false;
-                if (StartingGame)
-                    Openmenu();
             }
-            else if (!toggleMenu)
+            else if(!toggleMenu)
             {
                 toggleMenu = true;
-                if (StartingGame)
-                    Openmenu();
+            }
+
+            if (StartingGame)
+                Openmenu();
+            if(player.GetComponent<PlayerControllerWithCharC>().enabled)
+            {
+                Cursor.visible = false;
+                Cursor.lockState = CursorLockMode.Confined;
             }
         }
-    }
+        
+
+
         //--------------------------------------------DetectEnd----------------------------------------------------------
+
+        if(DontDestory.illgeeCount >= 7 && DontDestory.photoCount >= 7 && DailyUI.activeSelf)
+        {
+            Debug.Log("omg sans");
+        }
+    }
 
     private void Start()
     {
+        Scene currentScene = SceneManager.GetActiveScene();
+        string sceneName = currentScene.name;
 
-        if (SceneManager.GetActiveScene().name == "Out")
+        if (sceneName == "Out")
         {
             StartingGame = false;
             IsNextPage = true;
@@ -83,13 +80,7 @@ public class PlayerMenu : MonoBehaviour
             Cursor.visible = false;
             return;
         }
-        if (SceneManager.GetActiveScene().name == "OutSideToEnding")
-        {
-            MaZza.SetActive(false);
-            blackscreen.SetActive(false);
-            MyGgaKillHatDa.SetActive(false);
-        }
-        
+            
     }
 
     IEnumerator secMute()
@@ -113,7 +104,7 @@ public class PlayerMenu : MonoBehaviour
 
             Cursor.lockState = CursorLockMode.Locked;
         }
-        else if (toggleMenu)            //메뉴켜기
+        else if (toggleMenu)
         {
 
             //Time.timeScale = 0;
@@ -131,19 +122,7 @@ public class PlayerMenu : MonoBehaviour
 
     //---------------------------UI click----------------------------------
 
-    int SaveD = 0;
-    public void DirectDiary()
-    {
-        if(DontDestory.illgeeCount != SaveD)
-        {
-            toggleMenu = true;
-            MenuUI.SetActive(false);
-            UI_Daily();
-            SaveD = DontDestory.illgeeCount;
-        }
-        else
-        { return; }
-    }
+    
 
     public void Continue()
     {
@@ -171,13 +150,12 @@ public class PlayerMenu : MonoBehaviour
     {
         MenuUI.SetActive(false);
         PhotoUI.SetActive(true);
-        pagesound();
     }
 
     public void UI_Daily()
     {
-        DailyUI.SetActive(true);
         MenuUI.SetActive(false);
+        DailyUI.SetActive(true);
         pagesound();
     }
 
@@ -258,58 +236,5 @@ public class PlayerMenu : MonoBehaviour
             DailyPage--;
             pagesound();
         }
-    }
-
-    //엔딩엔딩엔딩엔딩엔딩엔딩엔딩엔딩엔딩엔딩엔딩엔딩엔딩엔딩엔딩엔딩엔딩엔딩엔딩엔딩엔딩엔딩엔딩엔딩엔딩엔딩엔딩엔딩엔딩엔딩엔딩엔딩엔딩엔딩엔딩엔딩엔딩엔딩엔딩엔딩엔딩
-
-    bool endcounter = false;
-    [Space(10f)]
-    public GameObject MaZza;
-    public GameObject blackscreen;
-    public GameObject MyGgaKillHatDa;
-    public GameObject endBGM;
-
-
-    void detect7()
-    {
-        if (SceneManager.GetActiveScene().name == "OutSideToEnding")
-        {
-            if (DontDestory.illgeeCount == 7 && DontDestory.photoCount >= 7)
-            {
-                endBGM.GetComponent<AudioSource>().Play();
-                endcounter = true;
-            }
-            if (endcounter && PhotoUI.activeSelf == false)
-            {
-                StartCoroutine(GoToEnd());
-                endcounter = false;
-                DontDestory.illgeeCount = 8;
-            }
-        }
-    }
-
-    IEnumerator GoToEnd()
-    {
-        endBGM.GetComponent<AudioSource>().Play();
-        player.GetComponent<PlayerControllerWithCharC>().enabled = false;
-        yield return new WaitForSecondsRealtime(5.0f);
-        toggleMenu = false;
-        MaZza.SetActive(true);
-        yield return new WaitForSecondsRealtime(3.0f);
-
-        MaZza.SetActive(false);
-        yield return new WaitForSecondsRealtime(3.0f);
-
-        blackscreen.SetActive(true);
-        endBGM.GetComponent <AudioSource>().Stop();
-        yield return new WaitForSecondsRealtime(1f);
-
-        MyGgaKillHatDa.SetActive(true);
-        yield return new WaitForSecondsRealtime(3.0f);
-
-        MyGgaKillHatDa.SetActive(false);
-        yield return new WaitForSecondsRealtime(.5f);
-
-        SceneManager.LoadScene("GG");
     }
 }

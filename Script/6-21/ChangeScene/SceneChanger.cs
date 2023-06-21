@@ -32,10 +32,10 @@ public class SceneChanger : MonoBehaviour
     {
         SceneManager.LoadScene("GG");
         Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.None;
+        Cursor.lockState = CursorLockMode.Confined;
     }
 
-    public void sinwhanValorantNOOB()           //EXIT
+    public void sinwhanValorantNOOB()
     {
         Application.Quit();
     }
@@ -44,5 +44,10 @@ public class SceneChanger : MonoBehaviour
 
     private void Update()
     {
+        if(DontDestory.photoCount == 7)
+        {
+            DontDestory.photoCount = 0;
+            //EndScene();
+        }
     }
 }

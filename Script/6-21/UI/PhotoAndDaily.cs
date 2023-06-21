@@ -1,8 +1,6 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.Video;
 
 public class PhotoAndDaily : MonoBehaviour
@@ -19,9 +17,6 @@ public class PhotoAndDaily : MonoBehaviour
     public GameObject Daily6;
     public GameObject Daily7;
 
-
-    public Image LastDaily;
-
     [Space(10f)]
     public GameObject empty;
 
@@ -32,10 +27,6 @@ public class PhotoAndDaily : MonoBehaviour
     private void Update()
     {
         ViewDailyPhoto();
-        if(DontDestory.illgeeCount >= 7 && DontDestory.photoCount >= 7)
-        {
-            ChangePhoto();
-        }
     }
 
     void ViewDailyPhoto()
@@ -247,30 +238,4 @@ public class PhotoAndDaily : MonoBehaviour
             default: break;
         }
     }
-    bool no = true;
-    public void ChangePhoto()
-    {
-        if(no)
-            StartCoroutine(a1());
-            no = false;
-    }
-    IEnumerator a1()
-    {
-        float alpha = 0f;
-        while(alpha < 1.0f)
-        {
-            alpha += 0.1f;
-            LastDaily.color = new Color(1, 1, 1, alpha);
-            yield return new WaitForSecondsRealtime(.05f);
-        }
-        yield return new WaitForSecondsRealtime(3f);
-        while (alpha > 0f)
-        {
-            alpha -= 0.1f;
-            LastDaily.color = new Color(1, 1, 1, alpha);
-            yield return new WaitForSecondsRealtime(.05f);
-        }
-        yield return null;
-    }
-
 }

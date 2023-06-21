@@ -25,13 +25,14 @@ public class lighting : MonoBehaviour
     IEnumerator FlickingLight()
     {
         int appleRandom;
-        appleRandom = Random.Range(2, 7);
+        appleRandom = Random.Range(1, 20);
 
         for (int i = 0; i < appleRandom; i++)
         {
             Light.SetActive(true);
             lightSound.GetComponent<AudioSource>().Play();
-            yield return new WaitForSecondsRealtime(.1f);
+            yield return new WaitForSecondsRealtime(.02f);
+            Light.SetActive(false);
         }
         Light.SetActive(false);
         gameObject.SetActive(false);

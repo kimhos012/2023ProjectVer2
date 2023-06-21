@@ -21,9 +21,5 @@ public class MainMenuOption : MonoBehaviour
         MainUI.SetActive(!toggle);
     }
 
-    void Start()
-    {
-        DontDestory.illgeeCount = 0;
-        DontDestory.photoCount = 0;
-    }
+
 }

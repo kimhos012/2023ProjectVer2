@@ -20,8 +20,6 @@ public class FifthPhotoTrigger : MonoBehaviour
     public GameObject NextPhoto;
     public GameObject NextDiary;
     public GameObject NextTrigger;
-    [Space(10f)]
-    public GameObject clear;
 
     void Awake()
     {
@@ -29,12 +27,10 @@ public class FifthPhotoTrigger : MonoBehaviour
         bottledrop = Bottle2.GetComponent<AudioSource>();
     }
 
-    bool ill = false;
     void Update()
     {
-        if(FifthPhoto.gameObject.activeSelf == false && !ill)   //5번째 사진 획득 감지
+        if(FifthPhoto.gameObject.activeSelf == false)   //5번째 사진 획득 감지
         {
-            ill = true;
             Debug.Log("지하실 문이 열렸다.");
             basementDoor.isLocked = false;
             Bottle1.SetActive(false);
@@ -45,16 +41,7 @@ public class FifthPhotoTrigger : MonoBehaviour
             NextPhoto.SetActive(true);
             NextDiary.SetActive(true);
             NextTrigger.SetActive(true);
-            StartCoroutine(baseclear());
+            this.gameObject.SetActive(false);
         }
-    }
-
-    IEnumerator baseclear()
-    {
-        clear.SetActive(true);
-        yield return new WaitForSecondsRealtime(2f);
-        clear.SetActive(false);
-        yield return null;
-        gameObject.SetActive(false);
     }
 }

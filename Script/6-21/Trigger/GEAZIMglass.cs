@@ -28,6 +28,7 @@ public class GEAZIMglass : MonoBehaviour
             illWhaeYoung = true;
             GlassSound.GetComponent<AudioSource>().Play();
             brokenGlass.SetActive(true);
+            nonBreak?.SetActive(false);
         }
     }
 }

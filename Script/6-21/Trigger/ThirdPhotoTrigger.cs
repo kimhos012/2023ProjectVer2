@@ -15,15 +15,12 @@ public class ThirdPhotoTrigger : MonoBehaviour
     public GameObject NextDiary;
     public GameObject NextTrigger;
     public GameObject GlassTrigger;
-    [Space(10f)]
-    public GameObject clear;
 
-    bool ill = false;
+
     void Update()
     {
-        if(ThirdPhoto.gameObject.activeSelf == false && !ill)
+        if(ThirdPhoto.gameObject.activeSelf == false)
         {
-            ill = true;
             Debug.Log("2층 계단의 장애물이 사라졌다.");
             //glassExplosion.GetComponent<AudioSource>().Play();
             BoxesSound.GetComponent<AudioSource>().Play();
@@ -33,17 +30,7 @@ public class ThirdPhotoTrigger : MonoBehaviour
             NextPhoto.SetActive(true);
             NextDiary.SetActive(true);
             NextTrigger.SetActive(true);
-            StartCoroutine(clearMsg());
-            
+            this.gameObject.SetActive(false);
         }
     }
-
-    IEnumerator clearMsg()
-    {
-        clear.SetActive(true);
-        yield return new WaitForSecondsRealtime(2f);
-        clear.SetActive(false);
-        this.gameObject.SetActive(false);
-    }
-
 }
